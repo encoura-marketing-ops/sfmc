@@ -65,18 +65,6 @@ ENDIF
           ENDIF
         NEXT
 
-        /* Now: count total and checked-in */
-        SET @totalFiltered = RowCount(@filteredRows)
-        SET @checkedInCount = 0
-
-        FOR @i = 1 TO @totalFiltered DO
-          SET @row = Row(@filteredRows, @i)
-          SET @status = Field(@row, "Status")
-          IF @status == "Attended" THEN
-            SET @checkedInCount = Add(@checkedInCount, 1)
-          ENDIF
-        NEXT
-
 
         /* Check if there are no campaign members */
         IF RowCount(@rows) == 0 THEN
@@ -141,7 +129,7 @@ ENDIF
       <input type="text" id="searchInput" onkeyup="filterTable()" placeholder="Start typing...">
       </form>
       <p id="searchCount">Showing all results</p>
-      <p id="checkedInCount">%%=v(@checkedInCount)=%% out of %%=v(@totalFiltered)=%% checked in</p>
+      <p id="checkedInCount">0 out of 0 checked in</p>
 </div>
     %%[
         /* Display status message if applicable */
