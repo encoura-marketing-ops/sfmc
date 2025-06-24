@@ -98,7 +98,7 @@ ENDIF
   <div class="container">
    
   
-    <h1>Check-In App</h1>
+    <h1>Check In App</h1>
     <h2>%%=v(@campaignName)=%%</h2>
     <div class="toolbar">
       
