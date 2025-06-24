@@ -49,22 +49,9 @@ ENDIF
         SET @rows = RetrieveSalesforceObjects(
             "CampaignMember", 
             "Id, FirstName, LastName, Title, CompanyOrAccount, Email, Status", 
-            "CampaignId", "=", @campaignID
+            "CampaignId", "=", @campaignID, 
+            "Status", "=", "Registered"
         )
-
-        SET @filteredRows = CreateObject("Rows")
-        SET @rowCount = RowCount(@rows)
-
-        /* First: filter into @filteredRows */
-        FOR @i = 1 TO @rowCount DO
-          SET @row = Row(@rows, @i)
-          SET @status = Field(@row, "Status")
-
-          IF @status == "Registered" OR @status == "Attended" OR @status == "Waitlisted" THEN
-            AddObjectArrayItem(@filteredRows, @row)
-          ENDIF
-        NEXT
-
 
         /* Check if there are no campaign members */
         IF RowCount(@rows) == 0 THEN
@@ -111,7 +98,7 @@ ENDIF
   <div class="container">
    
   
-    <h1>Check In App</h1>
+    <h1>Check-In App</h1>
     <h2>%%=v(@campaignName)=%%</h2>
     <div class="toolbar">
       
@@ -158,8 +145,8 @@ ENDIF
         </thead>
         <tbody>
             %%[
-                FOR @i = 1 TO RowCount(@filteredRows) DO
-                    SET @row = Row(@filteredRows, @i)
+                FOR @i = 1 TO RowCount(@rows) DO
+                    SET @row = Row(@rows, @i)
                     SET @firstName = Field(@row, "FirstName")
                     SET @lastName = Field(@row, "LastName")
                     SET @title = Field(@row, "Title")
